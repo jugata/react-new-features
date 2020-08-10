@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
@@ -34,6 +34,10 @@ import * as serviceWorker from './serviceWorker';
 //   // const increment = () => {
 //   //   setCount(count + 1)
 //   // }
+//   useEffect(() => {
+//     document.title = count
+//   })
+
 //   const reset = () => {
 //     setCount(props.count)
 //   }
@@ -53,36 +57,49 @@ import * as serviceWorker from './serviceWorker';
 // }
 
 const NoteApp = () => {
-  const [notes, setNotes] = useState([])
+  const notesData = JSON.parse(localStorage.getItem('notes'))
+  const [notes, setNotes] = useState(notesData || [])
   const [title, setTitle] = useState('')
-  console.table("notes", notes)
-  console.log("title", title)
+  const [body, setBody] = useState('')
+
 
   const addNote = (e) => {
     e.preventDefault()
     setNotes([
-      ...notes, { title }
+      ...notes, { title, body }
     ])
     setTitle('')
+    setBody('')
+  }
+  const removeNote = (title) => {
+    setNotes(notes.filter((note) => note.title !== title))
   }
 
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes))
+  })
   return (
     <div>
       <h1>NoteApp!</h1>
       {notes.map((note) => (
         <div key={note.title}>
-          <h4>{note.title}</h4>
+          <h3>Title: {note.title}</h3>
+          <p>Body: {note.body}</p>
+          <button onClick={() => removeNote(note.title)}>x</button>
         </div>
       ))}
       <p>ADD NOTE</p>
       <form onSubmit={addNote}>
         <input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <textarea name="body" cols="30" rows="5"
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+        ></textarea>
         <button >ADD NOTE</button>
       </form>
 
     </div>
   )
-
 }
 ReactDOM.render(
   <React.StrictMode>

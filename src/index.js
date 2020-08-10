@@ -26,41 +26,53 @@ import * as serviceWorker from './serviceWorker';
 // }
 
 
-// const App = (props) => {
-//   const [count, setCount] = useState(props.count)
-//   const [text, setText] = useState('')
-//   console.log("this is props", props)
-//   //use state returns state, and a function to call to update state.
-//   // const increment = () => {
-//   //   setCount(count + 1)
-//   // }
-//   useEffect(() => {
-//     document.title = count
-//   })
+const App = (props) => {
+  const [count, setCount] = useState(props.count)
+  const [text, setText] = useState('')
 
-//   const reset = () => {
-//     setCount(props.count)
-//   }
-//   return (
-//     <div>
-//       <p>The current {text || 'count'} is {count}</p>
-//       <button onClick={() => setCount(count + 1)}> + 1</button>
-//       <button onClick={() => setCount(count - 1)}> - 1</button>
-//       <button onClick={reset}>reset</button>
-//       <input value={text} onChange={(e) => setText(e.target.value)}></input>
-//     </div>
-//   )
-// }
+  //use state returns state, and a function to call to update state.
+  // const increment = () => {
+  //   setCount(count + 1)
+  // }
+  useEffect(() => {
+    console.log("run once")
+  }, [])
+
+  useEffect(() => {
+    console.log('useEffect ran')
+    document.title = count
+  }, [count])
+
+  const reset = () => {
+    setCount(props.count)
+  }
+  return (
+    <div>
+      <p>The current {text || 'count'} is {count}</p>
+      <button onClick={() => setCount(count + 1)}> + 1</button>
+      <button onClick={() => setCount(count - 1)}> - 1</button>
+      <button onClick={reset}>reset</button>
+      <input value={text} onChange={(e) => setText(e.target.value)}></input>
+    </div>
+  )
+}
 
 // App.defaultProps = {
 //   count: 0
 // }
 
 const NoteApp = () => {
-  const notesData = JSON.parse(localStorage.getItem('notes'))
-  const [notes, setNotes] = useState(notesData || [])
+
+  const [notes, setNotes] = useState([])
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
+
+  useEffect(() => {
+    const notesData = JSON.parse(localStorage.getItem('notes'))
+    if (notesData) {
+      setNotes(notesData)
+    }
+  }, [])
 
 
   const addNote = (e) => {
@@ -76,8 +88,9 @@ const NoteApp = () => {
   }
 
   useEffect(() => {
+    console.log('storing')
     localStorage.setItem('notes', JSON.stringify(notes))
-  })
+  }, [notes])
   return (
     <div>
       <h1>NoteApp!</h1>

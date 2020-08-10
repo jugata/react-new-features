@@ -26,36 +26,36 @@ import * as serviceWorker from './serviceWorker';
 // }
 
 
-const App = (props) => {
-  const [count, setCount] = useState(props.count)
-  const [text, setText] = useState('')
+// const App = (props) => {
+//   const [count, setCount] = useState(props.count)
+//   const [text, setText] = useState('')
 
-  //use state returns state, and a function to call to update state.
-  // const increment = () => {
-  //   setCount(count + 1)
-  // }
-  useEffect(() => {
-    console.log("run once")
-  }, [])
+//   //use state returns state, and a function to call to update state.
+//   // const increment = () => {
+//   //   setCount(count + 1)
+//   // }
+//   useEffect(() => {
+//     console.log("run once")
+//   }, [])
 
-  useEffect(() => {
-    console.log('useEffect ran')
-    document.title = count
-  }, [count])
+//   useEffect(() => {
+//     console.log('useEffect ran')
+//     document.title = count
+//   }, [count])
 
-  const reset = () => {
-    setCount(props.count)
-  }
-  return (
-    <div>
-      <p>The current {text || 'count'} is {count}</p>
-      <button onClick={() => setCount(count + 1)}> + 1</button>
-      <button onClick={() => setCount(count - 1)}> - 1</button>
-      <button onClick={reset}>reset</button>
-      <input value={text} onChange={(e) => setText(e.target.value)}></input>
-    </div>
-  )
-}
+//   const reset = () => {
+//     setCount(props.count)
+//   }
+//   return (
+//     <div>
+//       <p>The current {text || 'count'} is {count}</p>
+//       <button onClick={() => setCount(count + 1)}> + 1</button>
+//       <button onClick={() => setCount(count - 1)}> - 1</button>
+//       <button onClick={reset}>reset</button>
+//       <input value={text} onChange={(e) => setText(e.target.value)}></input>
+//     </div>
+//   )
+// }
 
 // App.defaultProps = {
 //   count: 0
@@ -95,11 +95,7 @@ const NoteApp = () => {
     <div>
       <h1>NoteApp!</h1>
       {notes.map((note) => (
-        <div key={note.title}>
-          <h3>Title: {note.title}</h3>
-          <p>Body: {note.body}</p>
-          <button onClick={() => removeNote(note.title)}>x</button>
-        </div>
+        <Note key={note.title} note={note} removeNote={removeNote} />
       ))}
       <p>ADD NOTE</p>
       <form onSubmit={addNote}>
@@ -114,6 +110,33 @@ const NoteApp = () => {
     </div>
   )
 }
+
+const Note = ({ note, removeNote }) => {
+  useEffect(() => {
+    console.log("yayayayaya")
+    return () => { //like componentDidUnmount, so when the Note comp us deleted, it will run
+      console.log('biiiii')
+    }
+  }, [])
+  return (
+    <div >
+      <h3>Title: {note.title}</h3>
+      <p>Body: {note.body}</p>
+      <button onClick={() => removeNote(note.title)}>x</button>
+    </div>
+
+
+  )
+
+}
+
+
+
+
+
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <NoteApp />

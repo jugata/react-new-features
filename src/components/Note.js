@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import NotesContext from '../context/notes-context'
+import { REMOVE_NOTE } from '../reducers/notes'
 
 
+const Note = ({ note }) => {
+  const { notesDispatch } = useContext(NotesContext)
 
-const Note = ({ note, removeNote }) => {
-
+  const removeNote = (title) => {
+    notesDispatch({
+      type: REMOVE_NOTE,
+      title: note.title
+    })
+  }
 
   return (
     <div className='notes'>
@@ -11,8 +19,6 @@ const Note = ({ note, removeNote }) => {
       <p>Body: {note.body}</p>
       <button onClick={() => removeNote(note.title)}>x</button>
     </div>
-
-
   )
 
 }

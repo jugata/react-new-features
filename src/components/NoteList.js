@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Note from './Note'
+import NotesContext from '../context/notes-context'
 
-// the props are passed down from NoteApp.js
-const NoteList = ({ notes, removeNote }) => {
+// the props were passed down from NoteApp.js before context was set up
+const NoteList = () => {
+  const { notes } = useContext(NotesContext)
 
   return notes.map((note) => (
-    <Note key={note.title} note={note} removeNote={removeNote} />
+    <Note key={note.title} note={note} />
   ))
 
 

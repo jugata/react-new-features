@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer } from 'react'
-import { notesReducer, POPULATE_NOTES, REMOVE_NOTE } from '../reducers/notes'
+import { notesReducer, POPULATE_NOTES } from '../reducers/notes'
 import NoteList from './NoteList'
 import AddNoteForm from './AddNoteForm'
-
+import NotesContext from '../context/notes-context'
 
 const NoteApp = () => {
   // const [notes, setNotes] = useState([])
@@ -18,26 +18,24 @@ const NoteApp = () => {
     }
   }, [])
 
-
-
-  const removeNote = (title) => {
-    // setNotes(notes.filter((note) => note.title !== title))
-    notesDispatch({
-      type: REMOVE_NOTE,
-      title
-    })
-  }
+  // const removeNote = (title) => {
+  //   // setNotes(notes.filter((note) => note.title !== title))
+  //   notesDispatch({
+  //     type: REMOVE_NOTE,
+  //     title
+  //   })
+  // }
 
   useEffect(() => {
     console.log('storing')
     localStorage.setItem('notes', JSON.stringify(notes))
   }, [notes])
   return (
-    <div>
+    <NotesContext.Provider value={{ notes, notesDispatch }}>
       <h1>NoteApp!</h1>
-      <NoteList notes={notes} removeNote={removeNote} />
+      <NoteList />
       <AddNoteForm notesDispatch={notesDispatch} />
-    </div>
+    </NotesContext.Provider>
   )
 }
 

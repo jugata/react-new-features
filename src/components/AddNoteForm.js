@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ADD_NOTE } from '../reducers/notes'
-
+// import NotesContext from '../context/notes-context'
 
 
 
@@ -35,3 +35,4 @@ const AddNoteForm = ({ notesDispatch }) => {
 }
 
 export { AddNoteForm as default }
+
